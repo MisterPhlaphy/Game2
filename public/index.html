@@ -3,22 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Application</title>
+    <title>Chat Application - Nickname</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-    <div id="nickname-choice">
-        <select id="nickname" onkeydown="if(event.key === 'Enter') validateAndSetNickname();">
+    <div id="nickname-container">
+        <select id="nickname">
             <option value="Player">Player</option>
             <option value="MASTER">MASTER</option>
         </select>
-        <input type="password" id="password" placeholder="Password for MASTER" onkeydown="if(event.key === 'Enter') validateAndSetNickname();">
-        <button onclick="validateAndSetNickname()">Set Nickname</button>
-    </div>
-    <div id="chat-container">
-        <div id="chat-box"></div>
-        <input type="text" id="message" placeholder="Type your message..." onkeydown="if(event.key === 'Enter') sendMessage();">
+        <input type="password" id="password" placeholder="Password for MASTER" onkeydown="if(event.key === 'Enter') setNickname();">
+        <button onclick="setNickname()">Enter Chat</button>
     </div>
     <script src="main.js"></script>
 </body>
