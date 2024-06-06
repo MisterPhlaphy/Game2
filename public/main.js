@@ -1,25 +1,26 @@
 const socket = io();
 
-let username = null;
+let userType = null;
 
-function setUsername() {
-    username = document.getElementById('username').value.trim();
-    if (username) {
-        document.getElementById('message').disabled = false;
-        document.getElementById('username-choice').style.display = 'none';
+function validateAndSetNickname() {
+    const nickname = document.getElementById('nickname').value;
+    const password = document.getElementById('password').value;
+
+    if (nickname === 'MASTER' && password !== 'I LOSE') {
+        alert('Incorrect password for MASTER!');
     } else {
-        alert('Please enter a username.');
+        userType = nickname;
+        document.getElementById('nickname-choice').style.display = 'none';
+        document.getElementById('chat-container').style.display = 'flex';
+        document.getElementById('message').focus();
     }
 }
 
 function sendMessage() {
-    const messageInput = document.getElementById('message');
-    const message = messageInput.value.trim();
-    if (message && username) {
-        socket.emit('new message', { user: username, text: message });
-        messageInput.value = '';
-    } else {
-        alert('Message cannot be empty.');
+    const message = document.getElementById('message').value.trim();
+    if (message) {
+        socket.emit('new message', { userType, text: message });
+        document.getElementById('message').value = '';
     }
 }
 
@@ -34,7 +35,8 @@ socket.on('message received', function(message) {
 function displayMessage(data) {
     const chatBox = document.getElementById('chat-box');
     const messageElement = document.createElement('div');
-    messageElement.textContent = `${data.user}: ${data.text}`;
+    messageElement.style.color = data.userType === 'MASTER' ? 'red' : 'blue';
+    messageElement.textContent = `${data.userType}: ${data.text}`;
     chatBox.appendChild(messageElement);
     chatBox.scrollTop = chatBox.scrollHeight;
 }
