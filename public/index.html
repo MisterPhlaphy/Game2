@@ -8,35 +8,18 @@
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-    <div id="chat-box"></div>
-    <input type="text" id="message" placeholder="Type your message..." onkeydown="if(event.key === 'Enter') sendMessage();">
-    <button onclick="sendMessage()">Send</button>
-
-    <script>
-        const socket = io();
-
-        socket.on('load all messages', function(messages) {
-            messages.forEach(message => displayMessage(message));
-        });
-
-        socket.on('message received', function(message) {
-            displayMessage(message);
-        });
-
-        function sendMessage() {
-            const messageInput = document.getElementById('message');
-            const message = messageInput.value;
-            socket.emit('new message', { user: 'User', text: message });
-            messageInput.value = '';
-        }
-
-        function displayMessage(data) {
-            const chatBox = document.getElementById('chat-box');
-            const messageElement = document.createElement('div');
-            messageElement.textContent = `${data.user}: ${data.text}`;
-            chatBox.appendChild(messageElement);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-    </script>
+    <div id="nickname-choice">
+        <select id="nickname" onkeydown="if(event.key === 'Enter') validateAndSetNickname();">
+            <option value="Player">Player</option>
+            <option value="MASTER">MASTER</option>
+        </select>
+        <input type="password" id="password" placeholder="Password for MASTER" onkeydown="if(event.key === 'Enter') validateAndSetNickname();">
+        <button onclick="validateAndSetNickname()">Set Nickname</button>
+    </div>
+    <div id="chat-container">
+        <div id="chat-box"></div>
+        <input type="text" id="message" placeholder="Type your message..." onkeydown="if(event.key === 'Enter') sendMessage();">
+    </div>
+    <script src="main.js"></script>
 </body>
 </html>
