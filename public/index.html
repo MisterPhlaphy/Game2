@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <div id="chat-box"></div>
+    <input type="text" id="message" placeholder="Type your message..." onkeydown="if(event.key === 'Enter') sendMessage();">
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        const socket = io();
+
+        socket.on('load all messages', function(messages) {
+            messages.forEach(message => displayMessage(message));
+        });
+
+        socket.on('message received', function(message) {
+            displayMessage(message);
+        });
+
+        function sendMessage() {
+            const messageInput = document.getElementById('message');
+            const message = messageInput.value;
+            socket.emit('new message', { user: 'User', text: message });
+            messageInput.value = '';
+        }
+
+        function displayMessage(data) {
+            const chatBox = document.getElementById('chat-box');
+            const messageElement = document.createElement('div');
+            messageElement.textContent = `${data.user}: ${data.text}`;
+            chatBox.appendChild(messageElement);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>

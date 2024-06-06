@@ -1,0 +1,29 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+#chat-box {
+    height: 300px;
+    overflow-y: scroll;
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    padding: 10px;
+    width: 300px;
+    margin: 20px auto;
+}
+
+input[type="text"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin: 0 10px 10px 10px;
+}
+
+button {
+    width: 100px;
+    padding: 10px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
