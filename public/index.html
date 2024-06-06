@@ -8,7 +8,7 @@
 </head>
 <body>
     <div id="nickname-container">
-        <select id="nickname">
+        <select id="nickname" onkeydown="if(event.key === 'Enter') setNickname();">
             <option value="Player">Player</option>
             <option value="MASTER">MASTER</option>
         </select>
