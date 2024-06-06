@@ -3,24 +3,32 @@ const socket = io();
 let userType = null;
 
 function validateAndSetNickname() {
-    const nickname = document.getElementById('nickname').value;
-    const password = document.getElementById('password').value;
+    const nicknameSelect = document.getElementById('nickname');
+    const passwordInput = document.getElementById('password');
+    const chatContainer = document.getElementById('chat-container');
+    const nicknameChoice = document.getElementById('nickname-choice');
+    const messageInput = document.getElementById('message');
+
+    const nickname = nicknameSelect.value;
+    const password = passwordInput.value;
 
     if (nickname === 'MASTER' && password !== 'I LOSE') {
         alert('Incorrect password for MASTER!');
+        passwordInput.value = ''; // Clear the password field for security
     } else {
         userType = nickname;
-        document.getElementById('nickname-choice').style.display = 'none';
-        document.getElementById('chat-container').style.display = 'flex';
-        document.getElementById('message').focus();
+        nicknameChoice.style.display = 'none';
+        chatContainer.style.display = 'flex';
+        messageInput.focus(); // Automatically focus the message input
     }
 }
 
 function sendMessage() {
-    const message = document.getElementById('message').value.trim();
+    const messageInput = document.getElementById('message');
+    const message = messageInput.value.trim();
     if (message) {
         socket.emit('new message', { userType, text: message });
-        document.getElementById('message').value = '';
+        messageInput.value = ''; // Clear the input after sending
     }
 }
 
@@ -38,5 +46,5 @@ function displayMessage(data) {
     messageElement.style.color = data.userType === 'MASTER' ? 'red' : 'blue';
     messageElement.textContent = `${data.userType}: ${data.text}`;
     chatBox.appendChild(messageElement);
-    chatBox.scrollTop = chatBox.scrollHeight;
+    chatBox.scrollTop = chatBox.scrollHeight; // Keep the newest messages visible
 }
