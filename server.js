@@ -26,9 +26,7 @@ io.on('connection', (socket) => {
 
     socket.on('new message', (data) => {
         messages.push(data);
-        if (messages.length > 150) {
-            messages.shift(); // Keep only the last 150 messages
-        }
+        if (messages.length > 150) messages.shift(); // Keep only the last 150 messages
 
         // Save messages to the file
         fs.writeFileSync(messagesFile, JSON.stringify(messages));
